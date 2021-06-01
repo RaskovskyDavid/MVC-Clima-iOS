@@ -7,15 +7,20 @@
 //
 
 import Foundation
+import CoreLocation
 protocol WeatherManagerDelegate {
     func didUpdateWeather(_ weatherManager: WeatherManager, weather: WeatherModel)
     func didFailWithError(error: Error)
 }
 struct WeatherManager {
-    let weatherURL = "https://api.openweathermap.org/data/2.5/weather?appid=74783303211fa60e8eeb3d5bf813bc8a&units=metric"
+    let weatherURL = "https://api.openweathermap.org/data/2.5/weather?appid=&units=metric"
     var delegate : WeatherManagerDelegate?
     func fetchWeather(cityName: String) {
         let urlString = "\(weatherURL)&q=\(cityName)"
+        performRequest(with: urlString)
+    }
+    func fetchWeather(latitude: CLLocationDegrees, longitute: CLLocationDegrees) {
+        let urlString = "\(weatherURL)&lat=\(latitude)&lon=\(longitute)"
         performRequest(with: urlString)
     }
     func performRequest(with urlString: String) {
@@ -27,7 +32,7 @@ struct WeatherManager {
             //        3 give the session a task
             let task = session.dataTask(with: url) { (data, response, error) in
                 if error != nil {
-                    self.delegate?.didFailWithError(error: error as! Error)
+                    self.delegate?.didFailWithError(error: error!)
                     
                     return
                 }
