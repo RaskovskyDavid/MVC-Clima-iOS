@@ -13,7 +13,7 @@ protocol WeatherManagerDelegate {
     func didFailWithError(error: Error)
 }
 struct WeatherManager {
-    let weatherURL = "https://api.openweathermap.org/data/2.5/weather?appid=74783303211fa60e8eeb3d5bf813bc8a&units=metric"
+    let weatherURL = "https://api.openweathermap.org/data/2.5/weather?appid=&units=metric"
     var delegate : WeatherManagerDelegate?
     func fetchWeather(cityName: String) {
         let urlString = "\(weatherURL)&q=\(cityName)"
